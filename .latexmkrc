@@ -1,7 +1,7 @@
 $bibtex_use = 2;
 $cleanup_includes_cusdep_generated = 1;
 $out_dir = "target";
-$pdf_mode = 4;
+$pdf_mode = 5;
 $silent = 1;
 
 # Beamer-specific extensions
