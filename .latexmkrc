@@ -1,4 +1,4 @@
-$bibtex_use = 2;
+$bibtex_use = 1.5;
 $cleanup_includes_cusdep_generated = 1;
 $out_dir = "target";
 $pdf_mode = 5;
