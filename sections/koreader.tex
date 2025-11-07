@@ -1,0 +1,30 @@
+\section{KOReader}
+\begin{frame}{KOReader}
+    KOReader is an app that allows you to read e-books in many formats (e.g., epub, PDF) on Unix-like OSs (e.g., Debian, Nickel).
+
+    \pause
+    And it is \textbf{optimized} for e-ink devices!
+
+    \pause
+    Wait, what? What would that even mean?
+\end{frame}
+
+\begin{frame}{E-ink Quirks}
+    E-ink devices are extremely slow at refreshing and suffer from ghosting, we have different.
+
+    \pause
+    KOReader does offer compiled versions so we could just try them out.
+
+    \pause
+    Except that it only ships binaries that link to \texttt{glibc} and postmarketOS uses \texttt{musl}.
+    % This means that we have to build ourselves, and the docs clearly state that cross-compilation is almost guaranteed not to work.
+\end{frame}
+
+\begin{frame}{SDL vs \texttt{/dev/fb0}}
+    KOReader comes in two variants:
+
+    \begin{enumerate}
+        \item<1-> one uses SDL to draw in an X.Org windows;
+        \item<2-> the other writes directly to the framebuffer;
+    \end{enumerate}
+\end{frame}
