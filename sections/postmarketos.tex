@@ -1,0 +1,150 @@
+\section{postmarketOS}
+\begin{frame}{Years go by…}
+    \centering
+    \includegraphics{assets/memes/years}
+\end{frame}
+
+\begin{frame}{Hack or Di(y|e) 2023}
+    I meet a guy with a Pinephone, I already know about the device, but he offers to show it to me and teaches me how to install postmarketOS.
+
+    \pause
+    Meanwhile, my book is catching dust at home.
+\end{frame}
+
+\begin{frame}{Pinephone}
+    \centering
+    \includegraphics[scale=0.16]{assets/pmos/pinephone}
+\end{frame}
+
+\begin{frame}{Many flavors!}
+    \centering
+    \includegraphics[scale=0.10]{assets/pmos/sxmo}
+\end{frame}
+
+\begin{frame}{Porting}
+    Nice stuff:
+
+    \begin{itemize}
+        \item<1-> good documentation
+        \item<2-> larger community
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Porting}
+    What's working?
+
+    \begin{itemize}
+        \item<1-> SSH via USB (sometimes)
+        \item<2-> booting into the UI (rarely)
+        \item<3-> …
+        \item<4-> that's it
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Porting}
+    What's \textbf{NOT} working?
+
+    \begin{itemize}
+        \item<1-> SSH becomes unresponsive after a while
+        \item<2-> X.Org is unresponsive
+        \item<3-> LED blinks when it shouldn't
+        \item<4-> touchscreen doesn't work
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Fix: X.Org + SSH}
+    If X.Org and the SSH server are unresponsive there must be a CPU or memory hog.
+
+    \pause
+    Look at \texttt{top}'s output and find out that there is a process firing every few seconds, that spikes the CPU to 85\%.
+
+    \pause
+    The software in question is \texttt{feh}, a background setter, not normal.
+\end{frame}
+
+\begin{frame}{Fix: X.Org + SSH}
+    Well, just stop it, sound easy, right?
+
+    \pause
+    Kill the process:
+    \pause
+    comes back
+
+    \pause
+    Check if OpenRC is managing it:
+    \pause
+    it's not
+\end{frame}
+
+\begin{frame}{Fix: X.Org + SSH}
+    What's going on?
+
+    \pause
+    Turns out that SXMO uses an obscure service supervisor called \texttt{superd}…
+    \pause
+    yes, even if postmarketOS ships with OpenRC.
+
+    \pause
+    Brute force my way into disabling the service with superd, then reboot…
+    \pause
+    comes back
+\end{frame}
+
+\begin{frame}{Fix: X.Org + SSH}
+    At this point I want to give up for another 2 years. But I keep fighting until I find out that the service is \textbf{supervised} by \texttt{superd} but \textbf{started} by an SXMO script.
+\end{frame}
+
+\begin{frame}{Fix: touchscreen}
+    Look at \texttt{dmesg}'s output:
+    \pause
+    tons of red lines.
+
+    \pause
+    \texttt{[ 2796.206511] cyttsp5 1-0024: supply vddio not found, using dummy regulator}
+
+    \pause
+    Looks like someone has fucked up the DTS for my the Kobo Clara HD.
+\end{frame}
+
+% \begin{frame}{Device Tree Source}
+%     % \texttt{
+%     % &cpu0 {
+%     %     arm-supply = <&dcdc3_reg>;
+%     %     soc-supply = <&dcdc1_reg>;
+%     % };
+
+%     % &gpio_keys {
+%     %     pinctrl-names = "default";
+%     %     pinctrl-0 = <&pinctrl_gpio_keys>;
+%     % };
+
+%     % &i2c1 {
+%     %     pinctrl-names = "default","sleep";
+%     %     pinctrl-0 = <&pinctrl_i2c1>;
+%     %     pinctrl-1 = <&pinctrl_i2c1_sleep>;
+%     % };
+%     % }
+% \end{frame}
+
+\begin{frame}{lisgd}
+    I can receive touch events via `evtest`, but still no response on screen.
+
+    \pause
+    SXMO handles gestures via a daemon called \texttt{lisgd}.
+
+    \pause
+    \texttt{lisgd} is having troubles attaching to the right X.Org instance.
+\end{frame}
+
+\begin{frame}{I can finally use my SXMO!}
+    % TODO: Add screen picture
+\end{frame}
+
+\begin{frame}{I can finally use Firefox!}
+    % TODO: Show Firefox running
+\end{frame}
+
+\begin{frame}{But wait…}
+    \centering
+    \includegraphics[scale=0.4]{assets/memes/thinking}
+\end{frame}
