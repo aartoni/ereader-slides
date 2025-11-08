@@ -106,25 +106,21 @@
     Looks like someone has fucked up the DTS for the Kobo Clara HD.
 \end{frame}
 
-% \begin{frame}{Device Tree Source}
-%     % \texttt{
-%     % &cpu0 {
-%     %     arm-supply = <&dcdc3_reg>;
-%     %     soc-supply = <&dcdc1_reg>;
-%     % };
+\begin{frame}[fragile]
+    \frametitle{Device Tree Source}
+    \begin{verbatim}
+&cpu0 {
+    arm-supply = <&dcdc3_reg>;
+    soc-supply = <&dcdc1_reg>;
+};
 
-%     % &gpio_keys {
-%     %     pinctrl-names = "default";
-%     %     pinctrl-0 = <&pinctrl_gpio_keys>;
-%     % };
-
-%     % &i2c1 {
-%     %     pinctrl-names = "default","sleep";
-%     %     pinctrl-0 = <&pinctrl_i2c1>;
-%     %     pinctrl-1 = <&pinctrl_i2c1_sleep>;
-%     % };
-%     % }
-% \end{frame}
+&i2c1 {
+    pinctrl-names = "default","sleep";
+    pinctrl-0 = <&pinctrl_i2c1>;
+    pinctrl-1 = <&pinctrl_i2c1_sleep>;
+};
+    \end{verbatim}
+\end{frame}
 
 \begin{frame}{lisgd}
     I can receive touch events via `evtest`, but still no response on screen.
